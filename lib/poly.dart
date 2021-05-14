@@ -7,8 +7,7 @@ export 'dart:math' show Point;
 import 'dart:math' show Point, asin, sqrt, pow, sin, cos, pi;
 import 'package:csv/csv.dart';
 import 'dart:convert' show utf8;
-import 'package:collection/collection.dart' as check_list
-    show DeepCollectionEquality;
+import 'package:collection/collection.dart' as check_list show DeepCollectionEquality;
 
 // Appends 2 or 3 Strings - DO not use - problem
 
@@ -22,7 +21,7 @@ import 'package:collection/collection.dart' as check_list
 //#1      _startIsolate.<anonymous closure> (dart:isolate/runtime/libisolate_patch.dart:300:19)
 //#2      _RawReceivePortImpl._handleMessage (dart:isolate/runtime/libisolate_patch.dart:171:12)
 List listAppend(List one, List two) {
-  return []..addAll(one)..addAll(two);
+  return [...one, ...two];
 }
 //List<Point<num>> new_w = append(l,[Point(74,99)].cast<Point<num>>());
 //print("\n\n ${new_w}");
@@ -39,11 +38,11 @@ List listAppend(List one, List two) {
 //TODO - kml support
 ///* `NeedsAtLeastThreePoints` is thrown if `Polygon.points` contains less than 3 points
 class NeedsAtLeastThreePoints implements Exception {
-  int _number_of_point;
+  final int _number_of_point;
   NeedsAtLeastThreePoints(this._number_of_point);
-  String toString() =>
-      "Please provide three or more points. Current number of Points: $_number_of_point";
-  int currentPointsInPolygon() => this._number_of_point;
+  @override
+  String toString() => 'Please provide three or more points. Current number of Points: $_number_of_point';
+  int currentPointsInPolygon() => _number_of_point;
 }
 
 //TO DO - Check length of dart identifier - Not found
@@ -52,23 +51,23 @@ class NeedsAtLeastThreePoints implements Exception {
 // NotJustTwoElementsForPoint
 ///* `WrongSizeForPoint` is thrown if `to_Point()` has more or less than 2 element. Point has only x and y.
 class WrongSizeForPoint implements Exception {
-  int _length_of_list;
+  final int _length_of_list;
   WrongSizeForPoint(this._length_of_list);
-  String toString() =>
-      "Wrong size, List must have 2 element. Current Size: $_length_of_list";
-  int inputListLength() => this._length_of_list;
+  @override
+  String toString() => 'Wrong size, List must have 2 element. Current Size: $_length_of_list';
+  int inputListLength() => _length_of_list;
 }
 
 //TO DO - Casting ??
 // can we check if List<dynamic> is List<num> ?? Replace List<num> with List
 ///* returns `true` if `String` contains Space
 bool containsSpace(String inputString) {
-  return inputString.contains(" ");
+  return inputString.contains(' ');
 }
 
 /// `List<num>` to `Point`
 Point toPoint(List<num> list_of_xy) {
-  int _length_of_list_xy = list_of_xy.length;
+  var _length_of_list_xy = list_of_xy.length;
   if (_length_of_list_xy == 2) {
     return Point(list_of_xy[0], list_of_xy[1]);
   } else {
@@ -79,14 +78,14 @@ Point toPoint(List<num> list_of_xy) {
 
 ///  `Point` to `List<num>`
 List<num> pointToList(Point inPoint) {
-  List<num> output = [inPoint.x, inPoint.y];
+  var output = <num>[inPoint.x, inPoint.y];
   return output;
 }
 
 //TODO - Add a check to see if it's List<List<num>> or just List if it's casted ?
 /// `List<List (x,y)>` to `List<Point>`
 List<Point<num>> toListOfPoint(List<List<num>> list_of_list) {
-  List<Point<num>> _out_list_of_point = [];
+  var _out_list_of_point = <Point<num>>[];
   list_of_list.forEach((_element_in_list_of_list) {
     _out_list_of_point.add(toPoint(_element_in_list_of_list));
   });
@@ -95,8 +94,8 @@ List<Point<num>> toListOfPoint(List<List<num>> list_of_list) {
 
 /// `List<Point>` to `List<List (x,y)>`
 List<List<num>> pointsToList(List<Point<num>> inputListOfPoint) {
-  List<List<num>> _out = [];
-  for (int _i = 0; _i < inputListOfPoint.length; _i++) {
+  var _out = <List<num>>[];
+  for (var _i = 0; _i < inputListOfPoint.length; _i++) {
     _out.add(pointToList(inputListOfPoint[_i]));
   }
   return _out;
@@ -108,7 +107,7 @@ Polygon toPolyFromListOfList(List<List<num>> list_of_list) {
   if (_length_of_poly < 3) {
     throw NeedsAtLeastThreePoints(_length_of_poly);
   }
-  List<Point<num>> _list_of_point = [];
+  var _list_of_point = <Point<num>>[];
   list_of_list.forEach((_element_in_list_of_list) {
     _list_of_point.add(toPoint(_element_in_list_of_list));
   });
@@ -129,12 +128,9 @@ Polygon toPolyFromListOfList(List<List<num>> list_of_list) {
 ///   * `reverseIt`
 ///     - Default value `false`
 ///     - When set `true`, `List` will be reversed
-List<num> toListNum(List _inputList,
-    {bool reverseIt = false,
-    bool replaceWithZero = false,
-    bool sizeTwo = true}) {
-  var _list = []..addAll(_inputList);
-  int lengthOfPoints = _list.length;
+List<num> toListNum(List _inputList, {bool reverseIt = false, bool replaceWithZero = false, bool sizeTwo = true}) {
+  var _list = [..._inputList];
+  var lengthOfPoints = _list.length;
   if (replaceWithZero) {
     //print("${lengthOfPoints}");
     if (sizeTwo) {
@@ -153,7 +149,7 @@ List<num> toListNum(List _inputList,
         _list = [x, 0];
       }
     } else {
-      for (int _i = 0; _i < lengthOfPoints; _i++) {
+      for (var _i = 0; _i < lengthOfPoints; _i++) {
         var element = _list[_i];
         if ((element.runtimeType == String) || (element.runtimeType == bool)) {
           _list[_i] = 0;
@@ -161,22 +157,21 @@ List<num> toListNum(List _inputList,
       }
     }
   } else {
-    _list.removeWhere(
-        (_i) => (((_i.runtimeType == String) || (_i.runtimeType == bool))));
+    _list.removeWhere((_i) => (((_i.runtimeType == String) || (_i.runtimeType == bool))));
   }
 
   lengthOfPoints = sizeTwo ? 2 : _list.length;
 
   //print("${lengthOfPoints}");
-  List<num> numList = [];
+  var numList = <num>[];
   if (reverseIt) {
-    for (int _i = lengthOfPoints - 1; _i >= 0; _i--) {
+    for (var _i = lengthOfPoints - 1; _i >= 0; _i--) {
       var x = _list[_i];
       //print(x.runtimeType);
       numList.add(x);
     }
   } else {
-    for (int _i = 0; _i < lengthOfPoints; _i++) {
+    for (var _i = 0; _i < lengthOfPoints; _i++) {
       var x = _list[_i];
       //print(x.runtimeType);
       numList.add(x);
@@ -195,22 +190,17 @@ List<num> toListNum(List _inputList,
 ///     - Default value `false`
 ///     - When set `true`, `xi` will be swapped with `yi`
 ///       - i.e. `[ [x1,y1], [x2,y2], ...]` -> `[ [y1,x1], [y2,x2], ...]`
-List<List<num>> toListListNum(List _inputListOfList,
-    {bool swapXAndY = false, bool replaceWithZero = false}) {
-  var _listOfList = []..addAll(_inputListOfList);
+List<List<num>> toListListNum(List _inputListOfList, {bool swapXAndY = false, bool replaceWithZero = false}) {
+  var _listOfList = [..._inputListOfList];
   if (_listOfList[0][0].runtimeType == String) {
-    swapXAndY = swapXAndY
-        ? swapXAndY
-        : ((_listOfList[0][0] == "longitude" || _listOfList[0][0] == "y")
-            ? true
-            : false);
+    swapXAndY = swapXAndY ? swapXAndY : ((_listOfList[0][0] == 'longitude' || _listOfList[0][0] == 'y') ? true : false);
     //_listOfList.removeAt(0);
   }
-  int lengthOfPoints = _listOfList.length;
+  var lengthOfPoints = _listOfList.length;
   //print("Before: ${lengthOfPoints}");
   if (replaceWithZero) {
     //print("${lengthOfPoints}");
-    for (int _i = 0; _i < lengthOfPoints; _i++) {
+    for (var _i = 0; _i < lengthOfPoints; _i++) {
       var x = _listOfList[_i][0];
       var y = _listOfList[_i][1];
       //print(x.runtimeType);
@@ -225,15 +215,14 @@ List<List<num>> toListListNum(List _inputListOfList,
       // print("${lengthOfPoints}");
     }
   } else {
-    _listOfList.removeWhere((_i) =>
-        (((_i[0].runtimeType == String) || (_i[0].runtimeType == bool)) ||
-            ((_i[1].runtimeType == String) || (_i[1].runtimeType == bool))));
+    _listOfList.removeWhere((_i) => (((_i[0].runtimeType == String) || (_i[0].runtimeType == bool)) ||
+        ((_i[1].runtimeType == String) || (_i[1].runtimeType == bool))));
   }
   lengthOfPoints = _listOfList.length;
-  List<List<num>> numList = [];
+  var numList = <List<num>>[];
 
   if (swapXAndY) {
-    for (int _i = 0; _i < lengthOfPoints; _i++) {
+    for (var _i = 0; _i < lengthOfPoints; _i++) {
       var x = _listOfList[_i][0];
       var y = _listOfList[_i][1];
       numList.add([y, x]);
@@ -248,7 +237,7 @@ List<List<num>> toListListNum(List _inputListOfList,
     }
   } else {
     //print("lengthOfPoints:${lengthOfPoints}");
-    for (int _i = 0; _i < lengthOfPoints; _i++) {
+    for (var _i = 0; _i < lengthOfPoints; _i++) {
       // print("_i:${_i}");
       var y = _listOfList[_i][1];
       var x = _listOfList[_i][0];
@@ -273,7 +262,7 @@ List<List<num>> toListListNum(List _inputListOfList,
 /// A class for representing two-dimensional Polygon defined with `List<Point<num>> points`.
 class Polygon {
   final List<Point<num>> points;
-  String name;
+  String name = ''; // TODO check if this variabile is ever used in the code (had to initialize it to something)
   // double version;
 
   ///Create a `Polygon` with vertices at `points`.
@@ -296,11 +285,11 @@ class Polygon {
   bool contains(num px, num py) {
     num ax = 0;
     num ay = 0;
-    num bx = points[points.length - 1].x - px;
-    num by = points[points.length - 1].y - py;
-    int depth = 0;
+    var bx = points[points.length - 1].x - px;
+    var by = points[points.length - 1].y - py;
+    var depth = 0;
 
-    for (int i = 0; i < points.length; i++) {
+    for (var i = 0; i < points.length; i++) {
       ax = bx;
       ay = by;
       bx = points[i].x - px;
@@ -322,12 +311,10 @@ class Polygon {
   /// Calculates distance between two points {lat1,lon1} and {lat2,lon2} in meter
   /// source - https://edwilliams.org/avform.htm#Dist
   /// TODO add examples & tests
-  double distanceInMeter(double lat1, double lon1, double lat2, double lon2) {
+  double distanceInMeter(num lat1, num lon1, num lat2, num lon2) {
     double d;
     // d in rad
-    d = 2 *
-        asin(sqrt((pow((sin((lat1 - lat2) / 2)), 2)) +
-            cos(lat1) * cos(lat2) * (pow((sin((lon1 - lon2) / 2)), 2))));
+    d = 2 * asin(sqrt((pow((sin((lat1 - lat2) / 2)), 2)) + cos(lat1) * cos(lat2) * (pow((sin((lon1 - lon2) / 2)), 2))));
     // d in nm
     d = d * 180 * 60 / pi;
     // d in m
@@ -342,9 +329,10 @@ class Polygon {
     if (isPointInside(i)) {
       return true;
     } else {
+      // ignore: omit_local_variable_types
       double dis = 0, dd = 0;
       dis = distanceInMeter(i.x, i.y, points[0].x, points[0].y);
-      for (int j = 1; j < points.length; j++) {
+      for (var j = 1; j < points.length; j++) {
         dd = distanceInMeter(i.x, i.y, points[j].x, points[j].y);
         dis = dd < dis ? dd : dis;
       }
@@ -354,13 +342,12 @@ class Polygon {
 
   /// Checks if 2 `Polygon` have same vertices i.e. `points`
   bool hasSamePoints(Polygon anotherPolygon) {
-    bool same = (points.length == anotherPolygon.points.length);
+    var same = (points.length == anotherPolygon.points.length);
     if (!same) {
       return false;
     } else {
 //      int _length = points.length;
-      Function deepEq =
-          const check_list.DeepCollectionEquality.unordered().equals;
+      Function deepEq = const check_list.DeepCollectionEquality.unordered().equals;
       return deepEq(points, anotherPolygon.points);
     }
   }
@@ -372,7 +359,7 @@ class Polygon {
 
   /// returns `List<bool>` from `List<Point<num>>` based on if `Point<num>` is present or not
   List<bool> getList_IsListOfPointInside(List<Point<num>> inputListOfPoint) {
-    List<bool> _out = [];
+    var _out = <bool>[];
     for (var _currentPoint in inputListOfPoint) {
       _out.add(isPointInside(_currentPoint));
     }
@@ -381,7 +368,7 @@ class Polygon {
 
   /// returns `List<bool>` from `List<Point<num>>` based on if `Point<num>` is present or not
   List<bool> getList_IsListOfListInside(List<List<num>> inputListOfList) {
-    List<bool> _out = [];
+    var _out = <bool>[];
     var _inputListOfPoint = toListOfPoint(inputListOfList);
     _inputListOfPoint.forEach((_currentPoint) {
       _out.add(isPointInside(_currentPoint));
@@ -391,24 +378,20 @@ class Polygon {
 
   /// returns `true` if all `Point<num>` are inside `Polygon`
   bool areAllPointsInsidePolygon_ListPoint(List<Point<num>> inputListOfPoint) {
-    return getList_IsListOfPointInside(inputListOfPoint).contains(false)
-        ? false
-        : true;
+    return getList_IsListOfPointInside(inputListOfPoint).contains(false) ? false : true;
   }
 
   /// returns `true` if all List<num> are inside `Polygon`
   bool areAllPointsInsidePolygon_List(List<List<num>> inputListOfList) {
-    List<Point<num>> inputListOfPoint = toListOfPoint(inputListOfList);
-    return getList_IsListOfPointInside(inputListOfPoint).contains(false)
-        ? false
-        : true;
+    var inputListOfPoint = toListOfPoint(inputListOfList);
+    return getList_IsListOfPointInside(inputListOfPoint).contains(false) ? false : true;
   }
 
   /// returns `List indexes` from `List<Point<num>>` based on which `Point<num>` are present inside
   List<int> listIndexOfInsidePoint(List<Point<num>> inputListOfPoint) {
-    List<int> _out = [];
+    var _out = <int>[];
     Point<num> _pointInList;
-    for (int index = 0; index < inputListOfPoint.length; index++) {
+    for (var index = 0; index < inputListOfPoint.length; index++) {
       _pointInList = inputListOfPoint[index];
       if (isPointInside(_pointInList)) {
         _out.add(index);
@@ -427,34 +410,28 @@ class Polygon {
   /// * Optional Named parameter: `String diffNameThanIsInside`
   ///    * Different name than Default name(`isInside`) will be used by passing optional parameter: `diffNameThanIsInside`
   String IsInsideResultWithXY_ToCSVString(List<Point<num>> inputListOfPoint,
-      {bool includeHeader = true,
-      String diffNameThanIsInside,
-      bool useXY = false}) {
-    List<List> xYOut = [];
+      {bool includeHeader = true, String diffNameThanIsInside = '', bool useXY = false}) {
+    var xYOut = <List>[];
     if (includeHeader) {
-      String headerX = useXY ? "x" : "latitude";
-      String headerY = useXY ? "y" : "longitude";
+      var headerX = useXY ? 'x' : 'latitude';
+      var headerY = useXY ? 'y' : 'longitude';
       // TODO - Remove three quotation marks """Example Name_with_space""" when '"x"' is used, instead of "x"
-      diffNameThanIsInside = containsSpace(diffNameThanIsInside)
-          ? '${diffNameThanIsInside}'
-          : diffNameThanIsInside;
+      diffNameThanIsInside = containsSpace(diffNameThanIsInside) ? '$diffNameThanIsInside' : diffNameThanIsInside;
 //      print(diffNameThanIsInside);
-      String headerIs = (diffNameThanIsInside?.isNotEmpty ?? false)
-          ? diffNameThanIsInside
-          : "isInside";
+      var headerIs = diffNameThanIsInside.isNotEmpty ? diffNameThanIsInside : 'isInside';
       var headerL = [headerX, headerY, headerIs];
       xYOut.add(headerL);
     }
 
     for (var _currentPoint in inputListOfPoint) {
-      bool c_out = isPointInside(_currentPoint);
+      var c_out = isPointInside(_currentPoint);
 //      _out.add(c_out);
 //      x.add(_currentPoint.x);
 //      y.add(_currentPoint.y);
       var Temp = [_currentPoint.x, _currentPoint.y, c_out];
       xYOut.add(Temp);
     }
-    String csv = const ListToCsvConverter().convert(xYOut);
+    var csv = const ListToCsvConverter().convert(xYOut);
     return csv;
   }
 
@@ -466,10 +443,10 @@ class Polygon {
   /// * Optional Named parameter: `String includeHeader`
   ///    * if optional parameter - `includeHeader` is is passed as `false`, returning String will not contain header row
   String toCSVString({bool includeHeader = true, bool useXY = false}) {
-    List<List> _xY = [];
+    var _xY = <List>[];
     if (includeHeader) {
-      String _headerX = useXY ? "x" : "latitude";
-      String _headerY = useXY ? "y" : "longitude";
+      var _headerX = useXY ? 'x' : 'latitude';
+      var _headerY = useXY ? 'y' : 'longitude';
       var _headerL = [_headerX, _headerY];
       _xY.add(_headerL);
     }
@@ -477,7 +454,7 @@ class Polygon {
       var _currentXY = [_currentPoint.x, _currentPoint.y];
       _xY.add(_currentXY);
     }
-    String csv = const ListToCsvConverter().convert(_xY);
+    var csv = const ListToCsvConverter().convert(_xY);
     return csv;
   }
 } // class Polygon
@@ -487,12 +464,8 @@ class Polygon {
 /// * Optional parameter: `bool noHeader`
 ///     * By passing optional parameter: `noHeader` as `true`, Resulting List will not contain header row
 ///     * Default value `false`
-Future<List<List>> csvToListOfList(var csvString,
-    {bool noHeader = false}) async {
-  final List<List> listOfList = await csvString
-      .transform(utf8.decoder)
-      .transform(CsvToListConverter())
-      .toList();
+Future<List<List>> csvToListOfList(var csvString, {bool noHeader = false}) async {
+  final List<List> listOfList = await csvString.transform(utf8.decoder).transform(CsvToListConverter()).toList();
   if (noHeader) {
     listOfList.removeAt(0);
   }
@@ -509,37 +482,31 @@ Future<List<List>> csvToListOfList(var csvString,
 /// * Optional parameter: `isReversed`
 ///     * `isReversed` has default value = `false`
 Future<Polygon> csvToPoly(var csvString, {bool isReversed = false}) async {
-  List<List> _listOfList = await csvString
-      .transform(utf8.decoder)
-      .transform(CsvToListConverter())
-      .toList();
+  List<List> _listOfList = await csvString.transform(utf8.decoder).transform(CsvToListConverter()).toList();
   if (_listOfList[0][0].runtimeType == String) {
-    isReversed = isReversed
-        ? isReversed
-        : ((_listOfList[0][0] == "longitude" || _listOfList[0][0] == "y")
-            ? true
-            : false);
+    isReversed =
+        isReversed ? isReversed : ((_listOfList[0][0] == 'longitude' || _listOfList[0][0] == 'y') ? true : false);
     _listOfList.removeAt(0);
   }
 
-  List<List<num>> numList = [];
-  int lengthOfPoints = _listOfList.length;
+  var numList = <List<num>>[];
+  var lengthOfPoints = _listOfList.length;
   if (isReversed) {
-    for (int _i = 0; _i < lengthOfPoints; _i++) {
+    for (var _i = 0; _i < lengthOfPoints; _i++) {
       var x = _listOfList[_i][0];
       var y = _listOfList[_i][1];
       //print(x.runtimeType);
       numList.add([y, x]);
     }
   } else {
-    for (int _i = 0; _i < lengthOfPoints; _i++) {
+    for (var _i = 0; _i < lengthOfPoints; _i++) {
       var y = _listOfList[_i][1];
       var x = _listOfList[_i][0];
       //print(x.runtimeType);
       numList.add([x, y]);
     }
   }
-  Polygon _out = toPolyFromListOfList(numList);
+  var _out = toPolyFromListOfList(numList);
   return _out;
 }
 
