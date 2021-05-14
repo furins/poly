@@ -22,21 +22,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1d89d7da-124c-49bb-9edc-27f68f0848d7" name="Default Changelist" comment="v 2.0.0&#10;&#10;null-safety">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+    <list default="true" id="1d89d7da-124c-49bb-9edc-27f68f0848d7" name="Default Changelist" comment="v 2.0.0&#10;&#10;null-safety and code style improvements">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/conversion.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/conversion.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/easy_casting.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/easy_casting.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/exception_handling.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/exception_handling.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/poly_example.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/poly_example.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/prabhag11.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/prabhag11.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/simple_csv.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/simple_csv.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/spreadsheet_example.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/spreadsheet_example.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/using_to.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/using_to.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/poly.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/poly.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/poly_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/poly_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,20 +184,18 @@
       <option name="project" value="LOCAL" />
       <updated>1554207026692</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="v 2.0.0&#10;&#10;null-safety and code style improvements">
+      <created>1620996249045</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1620996249045</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="217919000" />
-  </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -274,7 +261,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="v 1.0.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="v 1.0.0" />
+    <MESSAGE value="v 2.0.0&#10;&#10;null-safety and code style improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="v 2.0.0&#10;&#10;null-safety and code style improvements" />
   </component>
   <component name="WindowStateProjectService">
     <state x="711" y="402" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1620995943493">
@@ -309,5 +297,11 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="469" y="179" key="SettingsEditor/1920.0.1680.1050/0.0.1920.1080@0.0.1920.1080" timestamp="1620993466035" />
+    <state x="577" y="237" key="run.anything.popup" timestamp="1621003851587">
+      <screen x="34" y="23" width="1886" height="1057" />
+    </state>
+    <state x="577" y="237" key="run.anything.popup/1920.23.1680.1027/34.23.1886.1057@34.23.1886.1057" timestamp="1621003851587" />
+    <state x="601" y="237" key="run.anything.popup/1920.23.1680.1027/35.0.1885.1080@35.0.1885.1080" timestamp="1620999671612" />
+    <state x="625" y="255" key="run.anything.popup/1920.23.1680.1027/35.23.1885.1057@35.23.1885.1057" timestamp="1620997030991" />
   </component>
 </project>
